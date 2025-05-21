@@ -13,7 +13,7 @@ router.register(
 )
 
 urlpatterns = [
-    path("", RedirectView.as_view(url="/api/")),
+    path("", RedirectView.as_view(url="/api/monitoring-data-file/")),
     path("api/", include(router.urls)),
     path("api/monitoring-data/", views.get_monitoring_data),
     path('admin/', admin.site.urls),
