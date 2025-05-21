@@ -37,6 +37,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://monitoring.amia.by",
+    "http://172.200.240.2:5173",
 ]
 
 ROOT_URLCONF = 'MonitoringBackend.urls'
