@@ -21,20 +21,94 @@ class MonitoringDataFileViewSet(ViewSet):
         schema = {
             "type": "object",
             "properties": {
-                "range": {"type": "array"},
-                "date": {"type": "string"},
-                "time": {"type": "string"},
+                "range": {"$ref": "#/$defs/range"},
+                "date": {"$ref": "#/$defs/date"},
+                "time": {"$ref": "#/$defs/time"},
                 "dfo": {
                     "type": "object",
                     "properties": {
-                        "Факультет милиции общественной безопасности": {
-                            "type": "object"
-                        }
+                        "head": {"$ref": "#/$defs/head"},
+                        "body": {"$ref": "#/$defs/body"},
                     },
-                    "required": ["Факультет милиции общественной безопасности"],
+                    "required": ["head", "body"],
+
                 },
+                "fp": {
+                    "type": "object",
+                    "properties": {
+                        "head": {"$ref": "#/$defs/head"},
+                        "body": {"$ref": "#/$defs/body"},
+                    },
+                    "required": ["head", "body"],
+                },
+                "dfo_Moskva": {
+                    "type": "object",
+                    "properties": {
+                        "head": {"$ref": "#/$defs/head"},
+                        "body": {"$ref": "#/$defs/body"},
+                    },
+                    "required": ["head", "body"],
+                },
+                "fpk": {
+                    "type": "object",
+                    "properties": {
+                        "head": {"$ref": "#/$defs/head"},
+                        "body": {"$ref": "#/$defs/body"},
+                    },
+                    "required": ["head", "body"],
+                },
+                "imvd": {
+                    "type": "object",
+                    "properties": {
+                        "head": {"$ref": "#/$defs/head"},
+                        "body": {"$ref": "#/$defs/body"},
+                    },
+                    "required": ["head", "body"],
+                },
+
             },
-            "required": ["range", "date", "time", "dfo"],
+            "required": ["range", "date", "time", "dfo", "fp", "dfo_Moskva", "fpk", "imvd"],
+            "$defs": {
+                "range": {"type": "array", "items": {"type": "string"}},
+                "date": {"type": "string"},
+                "time": {"type": "string"},
+                "head": {
+                    "type": "object",
+                    "properties": {
+                        "education_form": {"type": "string"},
+                        "education_term": {"type": "string"},
+                        "budget": {"type": "string"},
+                    },
+                    "required": ["education_term", "budget"],
+                },
+                "specialties": {"type": "array",
+                                "items": {"type": "object",
+                                          "properties": {
+                                              "specialty_name":
+                                                  {"type": "string", "specialty_data": {"type": "object"}}
+                                          },
+                                          "required": ["specialty_name"]
+                                          }
+                                },
+                "faculties": {"type": "array", "items": {"type": "object",
+                                                         "properties": {"faculty_name": {"type": "string"},
+                                                                        "specialties": {"$ref": "#/$defs/specialties"}
+                                                                        },
+                                                         "required": ["faculty_name", "specialties"]
+                                                         }
+                              },
+                "educational_institution": {"type": "object",
+                                            "properties": {"educational_institution_title": {"type": "string"},
+                                                           "faculties": {"$ref": "#/$defs/faculties"}},
+                                            "required": ["educational_institution_title", "faculties"]
+                                            },
+                "body": {"type": "object",
+                         "properties": {
+                             "educational_institution": {"$ref": "#/$defs/educational_institution"}
+                         },
+                         "required": ["educational_institution"]}
+            },
+
         }
 
         file_uploaded = request.FILES.get("file_uploaded")
